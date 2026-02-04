@@ -22,13 +22,19 @@
     .pill { display:inline-block; margin-top:10px; font-size:12px; padding:6px 10px; border-radius:999px; background:#eef2ff; color:#28327a; font-weight:700; }
     .note { margin-top:14px; color:var(--muted); font-size:13px; }
   </style>
+  <link rel="stylesheet" href="styles/header.css">
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Science Flashcards</h1>
-    </div>
-  </header>
+  <header class="k-hdr">
+  <div class="bar">
+    <div class="left"><button type="button" class="back-btn" onclick="goBack('index.html')">← Back</button></div>
+    <div class="center">Science</div>
+    <div class="right"><a href="/index.html">Home</a></div>
+  </div>
+  <div class="k-mascot">
+    <img src="/mascots/kitimus/kitimus-neutral.png" alt="Kitimus">
+  </div>
+</header>
 
   <main class="wrap">
     <div class="grid">
@@ -37,9 +43,27 @@
         <p class="sub">Study the science words in Chapter 8.</p>
         <span class="pill">Open Chapter 8</span>
       </a>
+<a class="card" href="./ch-9/">
+  <p class="title">Chapter 9</p>
+  <p class="sub">Study the science words in Chapter 9.</p>
+  <span class="pill">Open Chapter 9</span>
+</a>
     </div>
 
     <p class="note">Tip: Bookmark this page. Each chapter will keep its own flashcards.</p>
   </main>
+<script>
+  function goBack(fallbackHref){
+    try{
+      if (window.history.length > 1){
+        window.history.back();
+      } else {
+        window.location.href = fallbackHref;
+      }
+    } catch(e){
+      window.location.href = fallbackHref;
+    }
+  }
+</script>
 </body>
 </html>
