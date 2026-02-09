@@ -224,93 +224,84 @@
     </div>
   </main>
 
-  <script>
-    // Chapter 9 set
-    const CARDS = [
-  { key: '9-1' },
-  { key: '9-2' },
-  { key: '9-3' },
-  { key: '9-4' },
-];
+ <script>
+  // Chapter 9 set
+  const CARDS = [
+    { key: '9-1' },
+    { key: '9-2' },
+    { key: '9-3' },
+    { key: '9-4' },
+    { key: '9-5' },
+    { key: '9-6' },
+    { key: '9-7' },
+    { key: '9-8' },
+  ];
 
-    const flipCard = document.getElementById("flipCard");
-    const frontImg = document.getElementById("frontImg");
-    const backImg  = document.getElementById("backImg");
+  const flipCard = document.getElementById("flipCard");
+  const frontImg = document.getElementById("frontImg");
+  const backImg  = document.getElementById("backImg");
 
-    const backBtn = document.getElementById("backBtn");
-    const flipBtn = document.getElementById("flipBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const metaText = document.getElementById("metaText");
+  const backBtn = document.getElementById("backBtn");
+  const flipBtn = document.getElementById("flipBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const metaText = document.getElementById("metaText");
 
-    let i = 0;
-    let flipped = false;
+  let i = 0;
+  let flipped = false;
 
-    function setImages(){
-      const k = CARDS[i].key;
-      frontImg.src = `./images/${k}-f.png`;
-      backImg.src  = `./images/${k}-b.png`;
-    }
+  function setImages(){
+    const k = CARDS[i].key;
+    frontImg.src = `./images/${k}-f.png`;
+    backImg.src  = `./images/${k}-b.png`;
+  }
 
-    function setMeta(){
-      metaText.textContent = `Card ${i + 1} of ${CARDS.length}`;
-      backBtn.disabled = (i === 0);
-      nextBtn.disabled = (i === CARDS.length - 1);
-    }
+  function setMeta(){
+    metaText.textContent = `Card ${i + 1} of ${CARDS.length}`;
+    backBtn.disabled = (i === 0);
+    nextBtn.disabled = (i === CARDS.length - 1);
+  }
 
-    function setFlip(state){
-      flipped = state;
-      flipCard.classList.toggle("is-flipped", flipped);
-    }
+  function setFlip(state){
+    flipped = state;
+    flipCard.classList.toggle("is-flipped", flipped);
+  }
 
-    function flip(){
-      setFlip(!flipped);
-    }
+  function flip(){
+    setFlip(!flipped);
+  }
 
-    function next(){
-      if(i >= CARDS.length - 1) return;
-      i++;
-      setFlip(false);
-      setImages();
-      setMeta();
-    }
-
-    function prev(){
-      if(i <= 0) return;
-      i--;
-      setFlip(false);
-      setImages();
-      setMeta();
-    }
-
-    flipCard.addEventListener("click", flip);
-
-    flipCard.addEventListener("keydown", (e) => {
-      if(e.key === "Enter" || e.key === " "){
-        e.preventDefault();
-        flip();
-      }
-    });
-
-    flipBtn.addEventListener("click", flip);
-    nextBtn.addEventListener("click", next);
-    backBtn.addEventListener("click", prev);
-
+  function next(){
+    if(i >= CARDS.length - 1) return;
+    i++;
+    setFlip(false);
     setImages();
     setMeta();
-    setFlip(false);
-  </script>
-<script>
-  function goBack(fallbackHref){
-    try{
-      if (window.history.length > 1){
-        window.history.back();
-      } else {
-        window.location.href = fallbackHref;
-      }
-    } catch(e){
-      window.location.href = fallbackHref;
-    }
   }
+
+  function prev(){
+    if(i <= 0) return;
+    i--;
+    setFlip(false);
+    setImages();
+    setMeta();
+  }
+
+  flipCard.addEventListener("click", flip);
+
+  flipCard.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      flip();
+    }
+  });
+
+  flipBtn.addEventListener("click", flip);
+  nextBtn.addEventListener("click", next);
+  backBtn.addEventListener("click", prev);
+
+  setImages();
+  setMeta();
+  setFlip(false);
 </script>
 </body>
 </html>
