@@ -4,14 +4,87 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ecology Quiz</title>
+
 <link rel="stylesheet" href="../styles/header.css">
+
 <style>
-body{margin:0;font-family:system-ui;background:#f4f6fb}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-.q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.1)}
-button{display:block;width:100%;margin-top:8px;padding:10px;border-radius:12px;border:0}
+:root{
+  --bg:#f4f6fb;
+  --card:#fff;
+  --text:#0f172a;
+  --muted:#475569;
+  --good:#16a34a;
+  --bad:#dc2626;
+}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+  padding:16px;
+}
+.panel{
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.1);
+}
+h1{
+  margin:0 0 6px;
+  font-size:18px;
+  font-weight:1000;
+}
+.sub{
+  font-size:13px;
+  font-weight:800;
+  color:var(--muted);
+}
+.choice{
+  display:block;
+  width:100%;
+  margin-top:8px;
+  padding:12px;
+  border-radius:14px;
+  border:0;
+  background:#e5e7eb;
+  font-weight:900;
+  text-align:left;
+  cursor:pointer;
+}
+.choice.correct{
+  background:rgba(22,163,74,.18);
+  color:#14532d;
+}
+.choice.wrong{
+  background:rgba(220,38,38,.18);
+  color:#7f1d1d;
+}
+.choice:disabled{
+  cursor:not-allowed;
+}
+.meta{
+  margin-top:10px;
+  font-size:13px;
+  font-weight:900;
+  color:var(--muted);
+}
+.btn{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:14px;
+  border:0;
+  font-weight:1000;
+  background:#0f172a;
+  color:#fff;
+  cursor:pointer;
+}
 </style>
 </head>
+
 <body>
 <header class="k-hdr">
   <div class="bar">
@@ -19,15 +92,117 @@ button{display:block;width:100%;margin-top:8px;padding:10px;border-radius:12px;b
     <div class="center">Science</div>
     <a class="home-link" href="https://kitimus.com/">Home</a>
   </div>
-  <div class="k-mascot"><img src="/mascots/kitimus/kitimus-neutral.png"></div>
+  <div class="k-mascot">
+    <img src="/mascots/kitimus/kitimus-neutral.png" alt="Kitimus">
+  </div>
 </header>
+
 <main class="wrap">
-<div class="q">
-<h3>Which is a producer?</h3>
-<button onclick="this.style.background='#bbf7d0'">🌿 Grass</button>
-<button>🐇 Rabbit</button>
-<button>🍄 Mushroom</button>
-</div>
+  <section class="panel">
+    <h1>Ecology Quiz 🧪</h1>
+    <p class="sub">Say the answer in your head first — then tap.</p>
+
+    <div id="questionArea"></div>
+    <div class="meta" id="progress"></div>
+
+    <button class="btn" id="startBtn">Start Quiz</button>
+  </section>
 </main>
+
+<script>
+/* ---- SHARED VOCAB LIST (32 terms) ---- */
+const VOCAB = [
+  {term:"Producer", def:"Makes its own food using sunlight."},
+  {term:"Consumer", def:"Gets energy by eating plants or animals."},
+  {term:"Decomposer", def:"Breaks down dead things and returns nutrients to the soil."},
+  {term:"Natural Resource", def:"Something from nature people use."},
+  {term:"Nonrenewable Resource", def:"A resource that cannot be replaced quickly."},
+  {term:"Recycle", def:"To use materials again instead of throwing them away."},
+  {term:"Herbivore", def:"An animal that eats only plants."},
+  {term:"Omnivore", def:"An animal that eats plants and animals."},
+  {term:"Carnivore", def:"An animal that eats only animals."},
+  {term:"Fungi", def:"Living things like mushrooms that do not use sunlight for food."},
+  {term:"Predator", def:"An animal that hunts other animals."},
+  {term:"Prey", def:"An animal that gets hunted."},
+  {term:"Ecosystem", def:"Living and nonliving things working together."},
+  {term:"Abiotic", def:"Nonliving parts of an ecosystem."},
+  {term:"Biotic", def:"Living parts of an ecosystem."},
+  {term:"Habitat", def:"The place where an organism lives."},
+  {term:"Niche", def:"An organism’s role or job in its ecosystem."},
+  {term:"Invasive Species", def:"A species that spreads and causes harm."},
+  {term:"Stem", def:"Plant part that supports and moves water."},
+  {term:"Root", def:"Plant part that absorbs water and holds it in place."},
+  {term:"Petal", def:"Flower part that attracts pollinators."},
+  {term:"Xylem", def:"Carries water from roots to leaves."},
+  {term:"Phloem", def:"Carries food through the plant."},
+  {term:"Stomata", def:"Tiny openings in leaves."},
+  {term:"Evaporation", def:"Liquid water turns into gas."},
+  {term:"Transpiration", def:"Water vapor leaves a plant."},
+  {term:"Condensation", def:"Gas turns into liquid."},
+  {term:"Precipitation", def:"Water falls from clouds."},
+  {term:"Hydroponics", def:"Growing plants without soil."},
+  {term:"Phototropism", def:"Plants grow toward light."},
+  {term:"Photosynthesis", def:"Plants use sunlight to make food."},
+  {term:"Limiting Factor", def:"Something that slows growth."}
+];
+
+let quiz=[], index=0, score=0;
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+}
+
+function startQuiz(){
+  quiz=[...VOCAB];
+  shuffle(quiz);
+  index=0;
+  score=0;
+  document.getElementById("startBtn").style.display="none";
+  showQuestion();
+}
+
+function showQuestion(){
+  const q=quiz[index];
+  const choices=[q.term];
+  while(choices.length<4){
+    const r=VOCAB[Math.floor(Math.random()*VOCAB.length)].term;
+    if(!choices.includes(r)) choices.push(r);
+  }
+  shuffle(choices);
+
+  const area=document.getElementById("questionArea");
+  area.innerHTML=`
+    <h3>${q.def}</h3>
+    ${choices.map(c=>`<button class="choice">${c}</button>`).join("")}
+  `;
+
+  document.getElementById("progress").textContent=
+    `Question ${index+1} of ${quiz.length}`;
+
+  area.querySelectorAll(".choice").forEach(b=>{
+    b.onclick=()=>{
+      area.querySelectorAll(".choice").forEach(x=>x.disabled=true);
+      if(b.textContent===q.term){
+        b.classList.add("correct");
+        score++;
+      } else {
+        b.classList.add("wrong");
+        area.querySelectorAll(".choice")
+          .forEach(x=>x.textContent===q.term&&x.classList.add("correct"));
+      }
+      setTimeout(()=>{
+        index++;
+        index<quiz.length ? showQuestion() :
+        area.innerHTML=`<h3>Done! 🎉</h3><p class="meta">Score: ${score}/${quiz.length}</p>`;
+      },650);
+    };
+  });
+}
+
+document.getElementById("startBtn").onclick=startQuiz;
+</script>
 </body>
 </html>
