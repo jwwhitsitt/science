@@ -1,36 +1,336 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ecology Vocab</title>
-<link rel="stylesheet" href="../styles/header.css">
-<style>
-body{margin:0;font-family:system-ui;background:#f4f6fb}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-.card{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 10px 24px rgba(0,0,0,.1);cursor:pointer}
-.q{font-weight:800}
-.a{display:none;margin-top:8px;border-top:1px solid #eee;padding-top:8px}
-.card.show .a{display:block}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ecology Unit 2 – Vocabulary</title>
+
+  <style>
+    :root{
+      --bg:#f4f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --shadow:0 10px 30px rgba(15,23,42,.12);
+      --radius:18px;
+      --btn:#0f172a;
+      --btn2:#e5e7eb;
+      --btn2text:#111827;
+      --link:#1d4ed8;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    /* Header (Science style) */
+    .k-hdr{
+      background:#fff;
+      box-shadow:0 1px 10px rgba(0,0,0,.06);
+    }
+    .k-hdr .bar{
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .k-hdr .left{ min-width:72px; }
+    .k-hdr .center{
+      flex:1;
+      text-align:center;
+      font-weight:1000;
+      font-size:16px;
+    }
+    .k-hdr .home-link{
+      text-decoration:none;
+      font-weight:900;
+      color:var(--link);
+      white-space:nowrap;
+    }
+    .back-btn{
+      border:0;
+      background:transparent;
+      color:var(--link);
+      font-weight:900;
+      cursor:pointer;
+      padding:6px 0;
+    }
+    .k-mascot{
+      display:flex;
+      justify-content:center;
+      padding:8px 0 10px;
+    }
+    .k-mascot img{
+      width:56px;
+      height:auto;
+      display:block;
+    }
+
+    main{
+      padding:14px 12px 28px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{
+      width:100%;
+      max-width:760px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .panel{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size:18px;
+      font-weight:1100;
+    }
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-weight:800;
+      font-size:13px;
+      line-height:1.35;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .btn{
+      border:0;
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:1000;
+      cursor:pointer;
+      background:var(--btn);
+      color:#fff;
+      box-shadow:0 10px 20px rgba(0,0,0,.10);
+    }
+    .btn.secondary{
+      background:var(--btn2);
+      color:var(--btn2text);
+      box-shadow:none;
+    }
+
+    /* Tap-to-reveal cards */
+    .cards{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .cardBtn{
+      width:100%;
+      text-align:left;
+      border:0;
+      background:#fff;
+      border-radius:16px;
+      padding:12px 12px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+      cursor:pointer;
+    }
+    .qline{
+      font-weight:1100;
+      font-size:14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .emoji{
+      width:22px;
+      display:inline-flex;
+      justify-content:center;
+    }
+    .aline{
+      margin-top:8px;
+      display:none;
+      font-weight:1000;
+      color:#111827;
+      padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.06);
+    }
+    .cardBtn.revealed .aline{ display:block; }
+
+    .hint{
+      margin-top:6px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:12px;
+    }
+    .tiny{
+      font-size:12px;
+      font-weight:800;
+      color:var(--muted);
+      margin-top:8px;
+    }
+  </style>
 </head>
+
 <body>
-<header class="k-hdr">
-  <div class="bar">
-    <div class="left"><button class="back-btn" onclick="history.back()">← Back</button></div>
-    <div class="center">Science</div>
-    <a class="home-link" href="https://kitimus.com/">Home</a>
-  </div>
-  <div class="k-mascot"><img src="/mascots/kitimus/kitimus-neutral.png"></div>
-</header>
-<main class="wrap">
-<h2>Tap-to-Reveal Vocabulary</h2>
-<div class="card"><div class="q">🌿 Producer</div><div class="a">Makes its own food using sunlight</div></div>
-<div class="card"><div class="q">🍄 Decomposer</div><div class="a">Breaks down dead things</div></div>
-<div class="card"><div class="q">🐇 Herbivore</div><div class="a">Eats only plants</div></div>
-</main>
-<script>
-document.querySelectorAll('.card').forEach(c=>c.onclick=()=>c.classList.toggle('show'));
-</script>
+  <header class="k-hdr">
+    <div class="bar">
+      <div class="left">
+        <button type="button" class="back-btn" onclick="goBack('./index.html')">← Back</button>
+      </div>
+      <div class="center">Science</div>
+      <a class="home-link" href="https://kitimus.com/">Home</a>
+    </div>
+    <div class="k-mascot">
+      <img src="/mascots/kitimus/kitimus-neutral.png" alt="Kitimus">
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <section class="panel">
+        <h1>Ecology Unit 2 – Vocabulary</h1>
+        <p class="sub">Rule: say it in your head first. Then tap to reveal.</p>
+        <div class="row">
+          <button class="btn secondary" type="button" id="revealAllBtn">Reveal all</button>
+          <button class="btn secondary" type="button" id="hideAllBtn">Hide all</button>
+          <button class="btn" type="button" id="shuffleBtn">Shuffle</button>
+        </div>
+        <div class="tiny" id="countLine"></div>
+      </section>
+
+      <section class="panel">
+        <h1>Tap-to-Reveal Vocabulary</h1>
+        <div class="hint">Tap each card to reveal the meaning.</div>
+        <div id="revealCards" class="cards"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Full list from the "Know these words!" section of your PDF
+    const VOCAB = [
+      { term:"Producer", emoji:"🌿", def:"Makes its own food (usually using sunlight)." },
+      { term:"Consumer", emoji:"🍽️", def:"Gets energy by eating plants or animals." },
+      { term:"Decomposer", emoji:"🍄", def:"Breaks down dead things and returns nutrients to the soil." },
+
+      { term:"Natural Resources", emoji:"⛏️", def:"Materials from nature that people use (water, trees, minerals, etc.)." },
+      { term:"Non-Renewable Resources", emoji:"🛢️", def:"Resources that cannot be replaced quickly (oil, coal, natural gas)." },
+      { term:"Recycle", emoji:"♻️", def:"To reuse materials instead of throwing them away." },
+
+      { term:"Herbivore", emoji:"🐰", def:"Eats only plants." },
+      { term:"Omnivore", emoji:"🐻", def:"Eats both plants and animals." },
+      { term:"Carnivore", emoji:"🦁", def:"Eats only animals." },
+
+      { term:"Fungi", emoji:"🍄", def:"Living things like mushrooms that get food by breaking down other matter." },
+      { term:"Predators", emoji:"🦅", def:"Animals that hunt and eat other animals." },
+      { term:"Prey", emoji:"🐭", def:"Animals that are hunted and eaten by predators." },
+
+      { term:"Ecosystem", emoji:"🌎", def:"All the living and nonliving things in an area working together." },
+      { term:"Abiotic", emoji:"🪨", def:"Nonliving parts of an ecosystem (water, rocks, air, sunlight, temperature)." },
+      { term:"Biotic", emoji:"🐾", def:"Living parts of an ecosystem (plants, animals, fungi, bacteria)." },
+
+      { term:"Habitat", emoji:"🏡", def:"The place where an organism lives." },
+      { term:"Niche", emoji:"🧩", def:"An organism’s job/role in its ecosystem." },
+      { term:"Invasive Species", emoji:"🚫", def:"A species that spreads into a new area and causes harm." },
+
+      { term:"Stems", emoji:"🌱", def:"Plant parts that support the plant and move water/food." },
+      { term:"Roots", emoji:"🫚", def:"Plant parts that anchor the plant and absorb water/nutrients." },
+      { term:"Petals", emoji:"🌸", def:"Flower parts that often attract pollinators." },
+
+      { term:"Xylem", emoji:"💧", def:"Plant tubes that move water from roots up to the plant." },
+      { term:"Phloem", emoji:"🍯", def:"Plant tubes that move sugar/food to parts of the plant." },
+      { term:"Stomata", emoji:"🫧", def:"Tiny openings in leaves that let gases/water vapor move in and out." },
+
+      { term:"Evaporation", emoji:"☀️", def:"When liquid water changes into water vapor (gas)." },
+      { term:"Transpiration", emoji:"🌿", def:"When water vapor leaves a plant through its leaves." },
+      { term:"Condensation", emoji:"☁️", def:"When water vapor cools and turns into tiny liquid droplets." },
+      { term:"Precipitation", emoji:"🌧️", def:"Water that falls from clouds (rain, snow, sleet, hail)." },
+
+      { term:"Hydroponics", emoji:"🧪", def:"Growing plants without soil, using water with nutrients." },
+      { term:"Phototropism", emoji:"🌞", def:"When a plant grows toward light." },
+      { term:"Photosynthesis", emoji:"🌞", def:"How plants use sunlight, water, and carbon dioxide to make sugar (food)." },
+      { term:"Limiting Factor", emoji:"⛔", def:"Something that limits how many organisms can live in an area (food, water, space, light)." }
+    ];
+
+    const revealWrap = document.getElementById("revealCards");
+    const countLine  = document.getElementById("countLine");
+    const revealAllBtn = document.getElementById("revealAllBtn");
+    const hideAllBtn   = document.getElementById("hideAllBtn");
+    const shuffleBtn   = document.getElementById("shuffleBtn");
+
+    let current = VOCAB.slice();
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+
+    function buildRevealCards(){
+      revealWrap.innerHTML = "";
+      countLine.textContent = `Cards: ${current.length}`;
+
+      current.forEach((v) => {
+        const btn = document.createElement("button");
+        btn.className = "cardBtn";
+        btn.type = "button";
+        btn.innerHTML = `
+          <div class="qline">
+            <span class="emoji">${escapeHtml(v.emoji || "📘")}</span>
+            <span><b>${escapeHtml(v.term)}</b></span>
+          </div>
+          <div class="aline">${escapeHtml(v.def)}</div>
+        `;
+        btn.addEventListener("click", () => btn.classList.toggle("revealed"));
+        revealWrap.appendChild(btn);
+      });
+    }
+
+    revealAllBtn.addEventListener("click", () => {
+      document.querySelectorAll(".cardBtn").forEach(b => b.classList.add("revealed"));
+    });
+
+    hideAllBtn.addEventListener("click", () => {
+      document.querySelectorAll(".cardBtn").forEach(b => b.classList.remove("revealed"));
+    });
+
+    shuffleBtn.addEventListener("click", () => {
+      current = shuffle(current);
+      buildRevealCards();
+    });
+
+    buildRevealCards();
+
+    function goBack(fallbackHref){
+      try{
+        if (window.history.length > 1){
+          window.history.back();
+        } else {
+          window.location.href = fallbackHref;
+        }
+      } catch(e){
+        window.location.href = fallbackHref;
+      }
+    }
+  </script>
 </body>
 </html>
