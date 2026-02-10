@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ecology Unit 2 – Study Guide</title>
+
+  <style>
+    :root{
+      --bg:#f4f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --shadow:0 10px 30px rgba(15,23,42,.12);
+      --radius:18px;
+      --btn:#0f172a;
+      --btn2:#e5e7eb;
+      --btn2text:#111827;
+      --good:#16a34a;
+      --bad:#dc2626;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    /* --- Header (matches your Science style) --- */
+    .k-hdr{
+      background:#fff;
+      box-shadow:0 1px 10px rgba(0,0,0,.06);
+    }
+    .k-hdr .bar{
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .k-hdr .left{ min-width:72px; }
+    .k-hdr .center{
+      flex:1;
+      text-align:center;
+      font-weight:1000;
+      font-size:16px;
+    }
+    .k-hdr .home-link{
+      text-decoration:none;
+      font-weight:900;
+      color:#1d4ed8;
+      white-space:nowrap;
+    }
+    .back-btn{
+      border:0;
+      background:transparent;
+      color:#1d4ed8;
+      font-weight:900;
+      cursor:pointer;
+      padding:6px 0;
+    }
+    .k-mascot{
+      display:flex;
+      justify-content:center;
+      padding:8px 0 10px;
+    }
+    .k-mascot img{
+      width:56px;
+      height:auto;
+      display:block;
+    }
+
+    /* --- Layout --- */
+    main{
+      padding:14px 12px 28px;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{
+      width:100%;
+      max-width:760px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .panel{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    h1{
+      margin:0 0 6px;
+      font-size:18px;
+      font-weight:1100;
+    }
+    .sub{
+      color:var(--muted);
+      font-weight:800;
+      font-size:13px;
+      margin-top:0;
+    }
+
+    /* --- Buttons --- */
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:0;
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:1000;
+      cursor:pointer;
+      background:var(--btn);
+      color:#fff;
+      box-shadow:0 10px 20px rgba(0,0,0,.10);
+    }
+    .btn.secondary{
+      background:var(--btn2);
+      color:var(--btn2text);
+      box-shadow:none;
+    }
+    .pill{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#3730a3;
+      font-weight:900;
+      font-size:12px;
+      margin-right:6px;
+    }
+
+    /* --- Tap-to-reveal cards --- */
+    .cards{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .cardBtn{
+      width:100%;
+      text-align:left;
+      border:0;
+      background:#fff;
+      border-radius:16px;
+      padding:12px 12px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+      cursor:pointer;
+    }
+    .qline{
+      font-weight:1000;
+      font-size:14px;
+    }
+    .aline{
+      margin-top:8px;
+      display:none;
+      font-weight:1000;
+      color:#111827;
+      padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.06);
+    }
+    .cardBtn.revealed .aline{ display:block; }
+    .hint{
+      margin-top:6px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:12px;
+    }
+
+    /* --- Multiple choice quiz --- */
+    .quizQ{
+      margin-top:10px;
+      padding:12px;
+      border-radius:16px;
+      background:#fff;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+    }
+    .quizQ h3{
+      margin:0 0 10px;
+      font-size:14px;
+      font-weight:1100;
+    }
+    .choices{
+      display:grid;
+      gap:8px;
+    }
+    .choiceBtn{
+      border:0;
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      background:var(--btn2);
+      color:var(--btn2text);
+      text-align:left;
+    }
+    .choiceBtn:disabled{
+      cursor:not-allowed;
+      opacity:.85;
+    }
+    .choiceBtn.correct{
+      background:rgba(22,163,74,.16);
+      color:#14532d;
+      box-shadow: inset 0 0 0 2px rgba(22,163,74,.35);
+    }
+    .choiceBtn.wrong{
+      background:rgba(220,38,38,.14);
+      color:#7f1d1d;
+      box-shadow: inset 0 0 0 2px rgba(220,38,38,.25);
+    }
+    .scoreLine{
+      margin-top:10px;
+      color:var(--muted);
+      font-weight:900;
+      font-size:13px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .tiny{
+      font-size:12px;
+      font-weight:800;
+      color:var(--muted);
+      margin-top:6px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="k-hdr">
+    <div class="bar">
+      <div class="left">
+        <button type="button" class="back-btn" onclick="goBack('../index.html')">← Back</button>
+      </div>
+      <div class="center">Science</div>
+      <a class="home-link" href="https://kitimus.com/">Home</a>
+    </div>
+    <div class="k-mascot">
+      <img src="/mascots/kitimus/kitimus-neutral.png" alt="Kitimus">
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <section class="panel">
+        <h1>Ecology Unit 2 – Fun Study Guide</h1>
+        <p class="sub">
+          <span class="pill">No flashcards</span>
+          <span class="pill">No typing</span>
+          <span class="pill">Multiple choice</span>
+        </p>
+        <div class="tiny">Rule: say the answer in your head first. Then tap.</div>
+      </section>
+
+      <section class="panel">
+        <h1>Tap-to-Reveal (Quick Cards)</h1>
+        <div class="hint">Tap each card to reveal the answer.</div>
+        <div id="revealCards" class="cards"></div>
+      </section>
+
+      <section class="panel">
+        <h1>Multiple Choice Quiz</h1>
+        <div class="row">
+          <button class="btn" id="startQuizBtn">Start Quiz</button>
+          <button class="btn secondary" id="retryQuizBtn" disabled>Retry</button>
+        </div>
+        <div class="scoreLine">
+          <div id="quizProgress">Not started</div>
+          <div id="quizScore">Score: 0</div>
+        </div>
+        <div id="quizArea"></div>
+        <div class="tiny">Tip: answers shuffle every time you start.</div>
+      </section>
+
+      <section class="panel">
+        <h1>Final Boss (Optional)</h1>
+        <div class="tiny">
+          If you want to keep a “big thinking” question, leave this section.
+          If you want zero writing, delete it.
+        </div>
+        <div class="quizQ">
+          <h3>Explain it like a scientist:</h3>
+          <ul>
+            <li>How could you prove a plant needs water, air, and sunlight to grow?</li>
+            <li>What would you keep the same?</li>
+            <li>What would you change?</li>
+            <li>What would you observe?</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // --- Vocabulary set (edit here only) ---
+    // Add/remove terms as needed. Keep them simple and teacher-aligned.
+    const VOCAB = [
+      { term: "Producer", def: "An organism that makes its own food (usually using sunlight)." },
+      { term: "Consumer", def: "An organism that gets energy by eating plants or animals." },
+      { term: "Decomposer", def: "An organism that breaks down dead things and returns nutrients to the soil." },
+      { term: "Herbivore", def: "An animal that eats only plants." },
+      { term: "Carnivore", def: "An animal that eats only animals." },
+      { term: "Omnivore", def: "An animal that eats both plants and animals." },
+      { term: "Abiotic", def: "Nonliving parts of an ecosystem (water, rocks, air, sunlight, temperature)." },
+      { term: "Biotic", def: "Living parts of an ecosystem (plants, animals, fungi, bacteria)." },
+      { term: "Habitat", def: "The place where an organism lives." },
+      { term: "Niche", def: "An organism’s job or role in its ecosystem (how it survives and helps the system)." },
+      { term: "Food Chain", def: "A path that shows how energy moves from one organism to another." },
+      { term: "Food Web", def: "Many connected food chains in one ecosystem." }
+    ];
+
+    // --- Tap-to-reveal generator ---
+    const revealWrap = document.getElementById("revealCards");
+
+    function buildRevealCards(){
+      revealWrap.innerHTML = "";
+      VOCAB.forEach((v) => {
+        const btn = document.createElement("button");
+        btn.className = "cardBtn";
+        btn.type = "button";
+        btn.innerHTML = `
+          <div class="qline">What is <b>${escapeHtml(v.term)}</b>?</div>
+          <div class="aline">${escapeHtml(v.def)}</div>
+        `;
+        btn.addEventListener("click", () => btn.classList.toggle("revealed"));
+        revealWrap.appendChild(btn);
+      });
+    }
+
+    // --- Multiple choice quiz ---
+    const startBtn = document.getElementById("startQuizBtn");
+    const retryBtn = document.getElementById("retryQuizBtn");
+    const quizArea = document.getElementById("quizArea");
+    const quizProgress = document.getElementById("quizProgress");
+    const quizScore = document.getElementById("quizScore");
+
+    let quiz = [];
+    let qIndex = 0;
+    let score = 0;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+
+    function buildQuiz(){
+      // Questions: prompt is the definition, answer is the term.
+      // (This is usually easier for tests: recognize meaning → pick vocab word)
+      const allTerms = VOCAB.map(v => v.term);
+
+      quiz = shuffle(VOCAB).map(v => {
+        const correct = v.term;
+        // pick 3 wrong terms
+        const wrongPool = allTerms.filter(t => t !== correct);
+        const wrong = shuffle(wrongPool).slice(0, 3);
+        const choices = shuffle([correct, ...wrong]);
+        return {
+          prompt: v.def,
+          correct,
+          choices
+        };
+      });
+
+      qIndex = 0;
+      score = 0;
+      quizScore.textContent = `Score: ${score}`;
+      retryBtn.disabled = false;
+      renderQuestion();
+    }
+
+    function renderQuestion(){
+      const total = quiz.length;
+      quizProgress.textContent = `Question ${qIndex+1} of ${total}`;
+
+      const q = quiz[qIndex];
+      quizArea.innerHTML = `
+        <div class="quizQ">
+          <h3>${escapeHtml(q.prompt)}</h3>
+          <div class="choices"></div>
+        </div>
+      `;
+
+      const choicesDiv = quizArea.querySelector(".choices");
+
+      q.choices.forEach(choice => {
+        const b = document.createElement("button");
+        b.className = "choiceBtn";
+        b.type = "button";
+        b.textContent = choice;
+
+        b.addEventListener("click", () => {
+          // lock all
+          const buttons = choicesDiv.querySelectorAll("button");
+          buttons.forEach(x => x.disabled = true);
+
+          if(choice === q.correct){
+            b.classList.add("correct");
+            score++;
+            quizScore.textContent = `Score: ${score}`;
+          } else {
+            b.classList.add("wrong");
+            // show the correct one
+            buttons.forEach(x => {
+              if(x.textContent === q.correct) x.classList.add("correct");
+            });
+          }
+
+          // next question after short pause
+          setTimeout(() => {
+            qIndex++;
+            if(qIndex >= quiz.length){
+              quizProgress.textContent = `Done! ${score} / ${quiz.length}`;
+              quizArea.innerHTML = `
+                <div class="quizQ">
+                  <h3>Quiz Complete 🎯</h3>
+                  <div class="tiny">Score: <b>${score}</b> out of <b>${quiz.length}</b>.</div>
+                  <div class="tiny">Hit Retry to shuffle and practice again.</div>
+                </div>
+              `;
+            } else {
+              renderQuestion();
+            }
+          }, 650);
+        });
+
+        choicesDiv.appendChild(b);
+      });
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    startBtn.addEventListener("click", buildQuiz);
+    retryBtn.addEventListener("click", buildQuiz);
+
+    // init
+    buildRevealCards();
+
+    function goBack(fallbackHref){
+      try{
+        if (window.history.length > 1){
+          window.history.back();
+        } else {
+          window.location.href = fallbackHref;
+        }
+      } catch(e){
+        window.location.href = fallbackHref;
+      }
+    }
+  </script>
+</body>
+</html>
