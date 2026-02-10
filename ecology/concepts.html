@@ -1,29 +1,83 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ecology Concepts</title>
-<link rel="stylesheet" href="../styles/header.css">
-<style>
-body{margin:0;font-family:system-ui;background:#f4f6fb}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-.card{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 10px 24px rgba(0,0,0,.1)}
-</style>
-</head>
-<body>
-<header class="k-hdr">
-  <div class="bar">
-    <div class="left"><button class="back-btn" onclick="history.back()">← Back</button></div>
-    <div class="center">Science</div>
-    <a class="home-link" href="https://kitimus.com/">Home</a>
-  </div>
-  <div class="k-mascot"><img src="/mascots/kitimus/kitimus-neutral.png"></div>
-</header>
-<main class="wrap">
-<div class="card">🪨 Abiotic = nonliving parts (water, air, sunlight)</div>
-<div class="card">🐾 Biotic = living parts (plants, animals)</div>
-<div class="card">🏡 Habitat = where an organism lives</div>
-</main>
-</body>
-</html>
+const CONCEPTS = [
+  {
+    q: "From where do plants get the atoms/molecules they need to grow, and how do they get them into the plant?",
+    correct: "Plants get water and minerals from the soil through roots, and carbon dioxide from the air through stomata in leaves.",
+    wrong: [
+      "Plants get their food from the soil, and the roots pull sugar up into the leaves.",
+      "Plants get energy from sunlight through their roots, then send it to the leaves to grow.",
+      "Plants get nutrients by eating insects, and they absorb them through the petals."
+    ]
+  },
+  {
+    q: "Where do plants get the energy they need to make glucose (their food)?",
+    correct: "Plants get energy from sunlight, which powers photosynthesis to make glucose.",
+    wrong: [
+      "Plants get energy from soil nutrients, which are turned into glucose in the roots.",
+      "Plants get energy by breathing in oxygen and using it to create glucose.",
+      "Plants get energy from decomposers breaking down dead matter near the plant."
+    ]
+  },
+  {
+    q: "How do mushrooms differ from plants?",
+    correct: "Mushrooms (fungi) do not make their own food using sunlight; they get energy by breaking down or absorbing nutrients from other things.",
+    wrong: [
+      "Mushrooms make glucose using photosynthesis, just like green plants do.",
+      "Mushrooms are animals, so they eat prey and digest it like predators.",
+      "Mushrooms are a type of seed that grows into a plant when it gets enough sunlight."
+    ]
+  },
+  {
+    q: "What are some abiotic things and biotic things in an ecosystem?",
+    correct: "Abiotic things are nonliving (water, air, sunlight, rocks), and biotic things are living (plants, animals, fungi, bacteria).",
+    wrong: [
+      "Abiotic things are animals, and biotic things are plants.",
+      "Abiotic things are things that were once alive, like dead leaves and dead logs.",
+      "Biotic things are only predators, and abiotic things are only prey."
+    ]
+  },
+  {
+    q: "What gases get exchanged between green plants (producers) and other organisms (consumers)?",
+    correct: "Plants take in carbon dioxide and release oxygen; animals take in oxygen and release carbon dioxide.",
+    wrong: [
+      "Plants breathe in oxygen and breathe out carbon dioxide just like animals.",
+      "Plants release nitrogen gas for animals to breathe, and animals release oxygen back to plants.",
+      "Plants take in water vapor and release carbon dioxide through their roots."
+    ]
+  },
+  {
+    q: "What happens if you allow plants to grow too close together?",
+    correct: "They compete for limited resources like light, water, and space, so some plants may grow poorly or die.",
+    wrong: [
+      "They always grow faster because being close together creates extra sunlight.",
+      "They stop photosynthesis because roots cannot absorb oxygen from the air anymore.",
+      "They turn into decomposers and begin breaking down the soil for nutrients."
+    ]
+  },
+  {
+    q: "How does water escape or leave from a plant?",
+    correct: "Water leaves mainly through stomata in leaves as water vapor; this is called transpiration.",
+    wrong: [
+      "Water leaves through the roots and goes back into the air; this is called condensation.",
+      "Water leaves when the plant makes glucose and releases liquid water; this is photosynthesis.",
+      "Water leaves when xylem turns water into sugar and sends it out of the petals."
+    ]
+  },
+  {
+    q: "Why do plants grow toward the light or the sun?",
+    correct: "Plants grow toward light to get more sunlight for photosynthesis; this is called phototropism.",
+    wrong: [
+      "Plants grow toward light because sunlight turns directly into minerals in the soil.",
+      "Plants grow toward light because stomata need sunlight to open so roots can breathe.",
+      "Plants grow toward light because decomposers pull them toward warmer ground."
+    ]
+  },
+  {
+    q: "How would you set up an experiment to prove a plant needs soil, water, and air to grow?",
+    correct: "Use identical plants and change only one factor at a time (no soil vs soil, no water vs water, no air vs air) while keeping light and temperature the same.",
+    wrong: [
+      "Give one plant extra sunlight and keep the other in the dark to prove it needs soil, water, and air.",
+      "Use different kinds of plants in different rooms so you can see which one grows tallest.",
+      "Change soil, water, and air all at once so the results happen faster."
+    ]
+  }
+];
