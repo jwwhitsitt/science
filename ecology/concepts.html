@@ -15,6 +15,12 @@
   .btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
   .tiny{font-size:12px;font-weight:800;color:#475569;margin-top:6px}
   .meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#475569;font-weight:900;font-size:13px;margin-bottom:10px}
+
+  .hud{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .hearts{font-size:18px;letter-spacing:2px}
+  .hearts .lost{opacity:.25;filter:grayscale(1)}
+  .hud .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:900;font-size:12px}
+
   .q{background:#fff;border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.1)}
   .q h3{margin:0 0 10px;font-size:15px;font-weight:1000}
   .choices{display:grid;gap:8px}
@@ -22,6 +28,8 @@
   .choiceBtn:disabled{cursor:not-allowed;opacity:.9}
   .choiceBtn.correct{background:rgba(22,163,74,.16);color:#14532d;box-shadow: inset 0 0 0 2px rgba(22,163,74,.35)}
   .choiceBtn.wrong{background:rgba(220,38,38,.14);color:#7f1d1d;box-shadow: inset 0 0 0 2px rgba(220,38,38,.25)}
+
+  .resultBox{background:#fff;border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.1)}
 </style>
 </head>
 <body>
@@ -38,11 +46,19 @@
   <div class="card">
     <h2 style="margin:0 0 6px;font-size:18px;font-weight:1100">Concepts (Multiple Choice) 🧠</h2>
     <div class="tiny">Rule: say the answer in your head first. Then tap.</div>
+
     <div class="row" style="margin-top:10px">
       <button class="btn" id="startBtn">Start</button>
       <button class="btn secondary" id="retryBtn" disabled>Retry</button>
     </div>
-    <div class="meta">
+
+    <div class="hud">
+      <div class="tag">Hearts</div>
+      <div id="hearts" class="hearts" aria-label="Hearts"></div>
+      <div class="tag" id="modeTag">Not started</div>
+    </div>
+
+    <div class="meta" style="margin-top:10px">
       <div id="progress">Not started</div>
       <div id="score">Score: 0</div>
     </div>
@@ -146,10 +162,15 @@
   const quizArea = document.getElementById("quizArea");
   const progress = document.getElementById("progress");
   const scoreEl = document.getElementById("score");
+  const heartsEl = document.getElementById("hearts");
+  const modeTag = document.getElementById("modeTag");
 
   let quiz = [];
   let i = 0;
   let score = 0;
+
+  const MAX_HEARTS = 3;
+  let hearts = MAX_HEARTS;
 
   function shuffle(arr){
     const a = arr.slice();
@@ -160,17 +181,51 @@
     return a;
   }
 
+  function renderHearts(){
+    // Render 3 hearts, with "lost" hearts dimmed.
+    let html = "";
+    for(let h=1; h<=MAX_HEARTS; h++){
+      if(h <= hearts){
+        html += `<span>❤️</span>`;
+      } else {
+        html += `<span class="lost">❤️</span>`;
+      }
+    }
+    heartsEl.innerHTML = html;
+    heartsEl.setAttribute("aria-label", `Hearts remaining: ${hearts} of ${MAX_HEARTS}`);
+  }
+
   function buildQuiz(){
     quiz = shuffle(CONCEPTS).map(item => {
       const choices = shuffle([item.correct, ...item.wrong]);
       return { q:item.q, correct:item.correct, choices };
     });
+
     i = 0;
     score = 0;
+    hearts = MAX_HEARTS;
+
     scoreEl.textContent = "Score: 0";
     progress.textContent = `Question 1 of ${quiz.length}`;
+    modeTag.textContent = "In progress";
     retryBtn.disabled = false;
+
+    renderHearts();
     renderQ();
+  }
+
+  function endRun(messageTitle, messageBody){
+    modeTag.textContent = "Run over";
+    progress.textContent = messageTitle;
+
+    quizArea.innerHTML = `
+      <div class="resultBox">
+        <h3 style="margin:0 0 8px;font-size:15px;font-weight:1100">${escapeHtml(messageTitle)}</h3>
+        <div class="tiny" style="margin-top:0">${escapeHtml(messageBody)}</div>
+        <div class="tiny" style="margin-top:10px">Score: <b>${score}</b> out of <b>${quiz.length}</b>.</div>
+        <div class="tiny">Hit Retry to try again (questions shuffle).</div>
+      </div>
+    `;
   }
 
   function renderQ(){
@@ -197,32 +252,48 @@
         const buttons = choicesDiv.querySelectorAll("button");
         buttons.forEach(x => x.disabled = true);
 
-        if(choice === q.correct){
+        const correctChoice = q.correct;
+
+        if(choice === correctChoice){
           b.classList.add("correct");
           score++;
           scoreEl.textContent = `Score: ${score}`;
         } else {
           b.classList.add("wrong");
+          hearts = Math.max(0, hearts - 1);
+          renderHearts();
+
+          // show the correct one
           buttons.forEach(x => {
-            if(x.textContent === q.correct) x.classList.add("correct");
+            if(x.textContent === correctChoice) x.classList.add("correct");
           });
         }
 
         setTimeout(() => {
+          if(hearts <= 0){
+            endRun(
+              "Out of hearts 💔",
+              "No worries. Retry and try again. Say it in your head first, then tap."
+            );
+            return;
+          }
+
           i++;
           if(i >= quiz.length){
+            modeTag.textContent = "Complete";
             progress.textContent = `Done! ${score} / ${quiz.length}`;
             quizArea.innerHTML = `
-              <div class="q">
-                <h3>Concepts Quiz Complete 🎯</h3>
-                <div class="tiny">Score: <b>${score}</b> out of <b>${quiz.length}</b>.</div>
+              <div class="resultBox">
+                <h3 style="margin:0 0 8px;font-size:15px;font-weight:1100">Concepts Complete 🎯</h3>
+                <div class="tiny" style="margin-top:0">Score: <b>${score}</b> out of <b>${quiz.length}</b>.</div>
+                <div class="tiny">Hearts left: <b>${hearts}</b> / ${MAX_HEARTS}.</div>
                 <div class="tiny">Hit Retry to shuffle and practice again.</div>
               </div>
             `;
           } else {
             renderQ();
           }
-        }, 650);
+        }, 700);
       });
 
       choicesDiv.appendChild(b);
@@ -237,6 +308,9 @@
       .replaceAll('"',"&quot;")
       .replaceAll("'","&#039;");
   }
+
+  // init HUD
+  renderHearts();
 
   startBtn.addEventListener("click", buildQuiz);
   retryBtn.addEventListener("click", buildQuiz);
