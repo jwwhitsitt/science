@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ecology Vocab</title>
+<link rel="stylesheet" href="../styles/header.css">
+<style>
+body{margin:0;font-family:system-ui;background:#f4f6fb}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 10px 24px rgba(0,0,0,.1);cursor:pointer}
+.q{font-weight:800}
+.a{display:none;margin-top:8px;border-top:1px solid #eee;padding-top:8px}
+.card.show .a{display:block}
+</style>
+</head>
+<body>
+<header class="k-hdr">
+  <div class="bar">
+    <div class="left"><button class="back-btn" onclick="history.back()">← Back</button></div>
+    <div class="center">Science</div>
+    <a class="home-link" href="https://kitimus.com/">Home</a>
+  </div>
+  <div class="k-mascot"><img src="/mascots/kitimus/kitimus-neutral.png"></div>
+</header>
+<main class="wrap">
+<h2>Tap-to-Reveal Vocabulary</h2>
+<div class="card"><div class="q">🌿 Producer</div><div class="a">Makes its own food using sunlight</div></div>
+<div class="card"><div class="q">🍄 Decomposer</div><div class="a">Breaks down dead things</div></div>
+<div class="card"><div class="q">🐇 Herbivore</div><div class="a">Eats only plants</div></div>
+</main>
+<script>
+document.querySelectorAll('.card').forEach(c=>c.onclick=()=>c.classList.toggle('show'));
+</script>
+</body>
+</html>
