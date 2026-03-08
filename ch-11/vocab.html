@@ -1,0 +1,111 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 11 Vocabulary</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f5f7fb;text-align:center}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:#ffffff;border-bottom:2px solid #ddd}
+header img{height:50px}
+
+.controls{margin:20px}
+
+button{padding:10px 16px;border:none;border-radius:8px;background:#2fa4e7;color:white;font-weight:bold;margin:4px}
+
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:20px}
+
+.card{width:260px;background:white;border-radius:12px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,0.1);cursor:pointer}
+
+.hidden{display:none}
+</style>
+
+<script>
+function toggle(id){
+let el=document.getElementById(id);
+el.classList.toggle("hidden");
+}
+
+function revealAll(){
+document.querySelectorAll(".answer").forEach(a=>a.classList.remove("hidden"));
+}
+
+function hideAll(){
+document.querySelectorAll(".answer").forEach(a=>a.classList.add("hidden"));
+}
+
+function shuffle(){
+let grid=document.getElementById("grid");
+for(let i=grid.children.length;i>=0;i--){
+grid.appendChild(grid.children[Math.random()*i|0]);
+}
+}
+</script>
+</head>
+
+<body>
+
+<header>
+<button onclick="history.back()">⬅ Back</button>
+<img src="../mascots/kitimus/kitimus-neutral.png">
+<a href="https://kitimus.com/">Home</a>
+</header>
+
+<div class="controls">
+<button onclick="revealAll()">Reveal all</button>
+<button onclick="hideAll()">Hide all</button>
+<button onclick="shuffle()">Shuffle</button>
+</div>
+
+<div id="grid" class="grid">
+
+<div class="card" onclick="toggle('a1')">
+<h2>🕊 pa / pac</h2>
+<div id="a1" class="answer hidden">
+<p><b>Meaning:</b> peace</p>
+<p><b>pacify</b> — calm someone down</p>
+<p><b>pacifist</b> — a person who believes in peace</p>
+</div>
+</div>
+
+<div class="card" onclick="toggle('a2')">
+<h2>🌍 pan</h2>
+<div id="a2" class="answer hidden">
+<p><b>Meaning:</b> all</p>
+<p><b>panorama</b> — a view of everything around you</p>
+<p><b>pandemic</b> — something spread everywhere</p>
+</div>
+</div>
+
+<div class="card" onclick="toggle('a3')">
+<h2>❤️ path</h2>
+<div id="a3" class="answer hidden">
+<p><b>Meaning:</b> feeling</p>
+<p><b>empathy</b> — understanding feelings</p>
+<p><b>sympathy</b> — caring about someone's feelings</p>
+</div>
+</div>
+
+<div class="card" onclick="toggle('a4')">
+<h2>🚀 pel</h2>
+<div id="a4" class="answer hidden">
+<p><b>Meaning:</b> push / drive</p>
+<p><b>propel</b> — push forward</p>
+<p><b>compel</b> — force someone to act</p>
+</div>
+</div>
+
+<div class="card" onclick="toggle('a5')">
+<h2>⏳ pend</h2>
+<div id="a5" class="answer hidden">
+<p><b>Meaning:</b> hang</p>
+<p><b>pendulum</b> — something hanging and swinging</p>
+<p><b>suspend</b> — hang something up</p>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
