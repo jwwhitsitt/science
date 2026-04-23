@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Chapter 13 – Vocabulary</title>
+<style>
+  :root{
+    --bg:#f6fbff; --card:#ffffff; --ink:#17324d; --muted:#5d748a; --line:#d8e6f2;
+    --blue:#2fa4e7; --green:#22c55e; --yellow:#f59e0b; --red:#ef4444;
+    --shadow:0 10px 28px rgba(25,64,99,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,#f6fbff 0%,#edf7ff 100%);
+    color:var(--ink); min-height:100vh;
+  }
+  .wrap{width:min(1100px,94vw);margin:0 auto;padding:20px 0 36px}
+
+  .topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-bottom:18px}
+  .topbar .left{justify-self:start}
+  .topbar .center{justify-self:center}
+  .topbar .right{justify-self:end}
+  .nav-btn{
+    display:inline-flex;align-items:center;justify-content:center;min-width:86px;padding:12px 16px;border:none;
+    border-radius:999px;background:var(--card);color:var(--ink);font-weight:700;font-size:15px;
+    box-shadow:var(--shadow);cursor:pointer;text-decoration:none;
+  }
+  .kitimus{width:72px;height:72px;object-fit:contain;display:block}
+
+  .hero{
+    background:var(--card);border:1px solid var(--line);border-radius:30px;
+    box-shadow:var(--shadow);padding:20px;text-align:center;margin-bottom:14px;
+  }
+  h1{margin:0 0 6px;font-size:clamp(24px,5vw,38px);line-height:1.1}
+  .sub{margin:0;color:var(--muted);font-size:16px;line-height:1.5}
+
+  .master-bar{
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);padding:14px 18px;margin-bottom:14px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .master-label{font-weight:800;font-size:15px;color:var(--muted);white-space:nowrap}
+  .master-track{flex:1;height:12px;background:#e0edf7;border-radius:999px;overflow:hidden}
+  .master-fill{height:100%;width:0%;background:var(--green);border-radius:999px;transition:width .4s ease}
+  .master-count{font-weight:900;font-size:15px;color:var(--green);white-space:nowrap;min-width:48px;text-align:right}
+
+  .panel{
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);padding:14px;margin-bottom:14px;
+  }
+  .actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .action-btn{
+    display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border:none;
+    border-radius:999px;background:var(--blue);color:#fff;font-weight:700;font-size:15px;
+    box-shadow:var(--shadow);cursor:pointer;
+  }
+  .action-btn.secondary{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+  .action-btn.quiz-btn{background:var(--ink);font-size:16px;padding:14px 24px}
+
+  .count{text-align:center;color:var(--muted);font-weight:700;margin-bottom:14px;font-size:15px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+
+  .card{
+    background:var(--card);border:2px solid var(--line);border-radius:24px;
+    box-shadow:var(--shadow);padding:18px;transition:border-color .2s;
+  }
+  .card.mastered{ border-color:var(--green); }
+  .card.still-learning{ border-color:var(--yellow); }
+
+  .card-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .card-emoji{font-size:32px;line-height:1}
+  .card-root{font-size:22px;font-weight:900}
+  .card-status{margin-left:auto;font-size:20px}
+
+  .reveal-btn{
+    width:100%;padding:12px;border-radius:14px;border:2px solid var(--line);
+    background:#f0f7ff;color:var(--ink);font-weight:800;font-size:15px;cursor:pointer;
+    text-align:center;margin-bottom:10px;
+  }
+  .reveal-btn.open{background:#e8f5e9;border-color:var(--green);color:#166534}
+
+  .details{display:none;margin-bottom:12px}
+  .details.visible{display:block}
+  .meaning{font-size:17px;font-weight:900;color:var(--blue);margin-bottom:8px}
+  .details p{margin:4px 0;font-size:15px;line-height:1.5}
+  .details p strong{color:var(--ink)}
+  .sentence{font-style:italic;color:var(--muted);margin-top:6px !important;font-size:14px}
+
+  .confidence-row{display:flex;gap:8px;margin-top:10px}
+  .conf-btn{
+    flex:1;padding:11px 8px;border-radius:12px;border:none;font-weight:800;font-size:14px;cursor:pointer;
+  }
+  .conf-btn.got-it{background:#dcfce7;color:#166534}
+  .conf-btn.got-it.active{background:var(--green);color:#fff}
+  .conf-btn.still{background:#fef9c3;color:#854d0e}
+  .conf-btn.still.active{background:var(--yellow);color:#fff}
+
+  #quizSection{display:none}
+  .quiz-card{
+    background:var(--card);border:1px solid var(--line);border-radius:24px;
+    box-shadow:var(--shadow);padding:22px;max-width:520px;margin:0 auto;
+  }
+  .quiz-progress{height:10px;background:#e0edf7;border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .quiz-bar{height:100%;background:var(--blue);border-radius:999px;transition:width .3s ease;width:0%}
+  .quiz-label{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:6px}
+  .quiz-prompt{font-size:28px;font-weight:900;text-align:center;margin:14px 0 6px}
+  .quiz-sub{font-size:15px;color:var(--muted);font-weight:700;text-align:center;margin-bottom:20px}
+  .quiz-choices{display:flex;flex-direction:column;gap:10px}
+  .choice-btn{
+    width:100%;padding:16px;border-radius:14px;border:2px solid var(--line);
+    background:var(--card);color:var(--ink);font-weight:800;font-size:16px;
+    cursor:pointer;text-align:left;transition:all .15s;
+  }
+  .choice-btn.correct{background:#dcfce7;border-color:var(--green);color:#166534}
+  .choice-btn.wrong{background:#fee2e2;border-color:var(--red);color:#991b1b}
+  .choice-btn:disabled{cursor:default}
+
+  .quiz-result{text-align:center;padding:28px 16px}
+  .quiz-score{font-size:52px;font-weight:900;color:var(--blue);margin-bottom:8px}
+  .quiz-msg{font-size:18px;font-weight:800;color:var(--muted);margin-bottom:22px}
+  .quiz-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+  @media(max-width:420px){
+    .wrap{width:96vw}
+    .kitimus{width:60px;height:60px}
+    .nav-btn{min-width:72px;padding:10px 12px;font-size:14px}
+    .card-root{font-size:20px}
+    .quiz-prompt{font-size:24px}
+    .choice-btn{font-size:15px;padding:14px}
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <div class="topbar">
+    <div class="left"><button class="nav-btn" type="button" onclick="history.back()">← Back</button></div>
+    <div class="center"><img class="kitimus" src="../mascots/kitimus/kitimus-neutral.png" alt="Kitimus" onerror="this.style.display='none'"></div>
+    <div class="right"><a class="nav-btn" href="https://kitimus.com/">Home</a></div>
+  </div>
+
+  <section class="hero">
+    <h1>Chapter 13 Vocabulary</h1>
+    <p class="sub">Study the roots, then take the quiz!</p>
+  </section>
+
+  <div class="master-bar">
+    <div class="master-label">Mastered</div>
+    <div class="master-track"><div class="master-fill" id="masterFill"></div></div>
+    <div class="master-count" id="masterCount">0 / 8</div>
+  </div>
+
+  <div id="studySection">
+    <section class="panel">
+      <div class="actions">
+        <button class="action-btn secondary" type="button" onclick="revealAll()">Reveal all</button>
+        <button class="action-btn secondary" type="button" onclick="hideAll()">Hide all</button>
+        <button class="action-btn secondary" type="button" onclick="shuffleCards()">Shuffle</button>
+        <button class="action-btn quiz-btn" type="button" onclick="startQuiz()">Quiz Me 🎯</button>
+      </div>
+    </section>
+
+    <div class="count">8 cards</div>
+
+    <section class="grid" id="cardGrid">
+
+      <article class="card" data-id="poly">
+        <div class="card-top">
+          <span class="card-emoji">🔢</span>
+          <span class="card-root">poly</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">many</div>
+          <p><strong>polygon</strong> — a shape with many sides</p>
+          <p><strong>polyester</strong> — fabric made of many blended materials</p>
+          <p class="sentence">A polygon has many sides, like a hexagon or octagon.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="post">
+        <div class="card-top">
+          <span class="card-emoji">📅</span>
+          <span class="card-root">post</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">after</div>
+          <p><strong>postpone</strong> — to move something to a later time</p>
+          <p><strong>postseason</strong> — games played after the regular season</p>
+          <p class="sentence">When a game is postponed, it happens after the time it was supposed to start.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="pre">
+        <div class="card-top">
+          <span class="card-emoji">⏮️</span>
+          <span class="card-root">pre</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">before</div>
+          <p><strong>preview</strong> — a look at something before it comes out</p>
+          <p><strong>prepare</strong> — to get ready before something happens</p>
+          <p class="sentence">You watch a preview before the movie starts to see what it's about.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="port">
+        <div class="card-top">
+          <span class="card-emoji">🎒</span>
+          <span class="card-root">port</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">to carry</div>
+          <p><strong>transport</strong> — to carry people or things from place to place</p>
+          <p><strong>portable</strong> — small and easy to carry around</p>
+          <p class="sentence">A portable speaker is easy to carry from room to room.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="proto">
+        <div class="card-top">
+          <span class="card-emoji">🥇</span>
+          <span class="card-root">proto</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">first</div>
+          <p><strong>prototype</strong> — the first version of something before it's finished</p>
+          <p><strong>proton</strong> — one of the first basic building blocks of an atom</p>
+          <p class="sentence">Engineers build a prototype first to test their idea before making the real thing.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="re">
+        <div class="card-top">
+          <span class="card-emoji">🔄</span>
+          <span class="card-root">re</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">again, back</div>
+          <p><strong>rewind</strong> — to go back to the beginning</p>
+          <p><strong>rebuild</strong> — to build something all over again</p>
+          <p class="sentence">If you rewind a video, you go back to watch it again from the start.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="rect">
+        <div class="card-top">
+          <span class="card-emoji">📐</span>
+          <span class="card-root">rect</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">straight</div>
+          <p><strong>rectangle</strong> — a shape with four straight sides</p>
+          <p><strong>correct</strong> — to fix or straighten out a mistake</p>
+          <p class="sentence">A rectangle has four straight sides and four right angles.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+      <article class="card" data-id="rhea">
+        <div class="card-top">
+          <span class="card-emoji">🌊</span>
+          <span class="card-root">rhea</span>
+          <span class="card-status"></span>
+        </div>
+        <button class="reveal-btn" type="button" onclick="toggleCard(this)">Tap to reveal ▼</button>
+        <div class="details">
+          <div class="meaning">flowing</div>
+          <p><strong>diarrhea</strong> — when liquid flows too fast through your body</p>
+          <p><strong>logorrhea</strong> — when words flow out nonstop without stopping</p>
+          <p class="sentence">Diarrhea happens when liquid moves too fast and flows right through your body.</p>
+        </div>
+        <div class="confidence-row">
+          <button class="conf-btn got-it" type="button" onclick="markCard(this,'mastered')">✅ Got it!</button>
+          <button class="conf-btn still" type="button" onclick="markCard(this,'still-learning')">🟡 Still learning</button>
+        </div>
+      </article>
+
+    </section>
+  </div>
+
+  <div id="quizSection">
+    <div class="quiz-card">
+      <div class="quiz-label" id="quizLabel">Question 1 of 8</div>
+      <div class="quiz-progress"><div class="quiz-bar" id="quizBar"></div></div>
+      <div id="quizBody"></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const CARDS = [
+  { id:"poly",  emoji:"🔢", root:"poly",  meaning:"many" },
+  { id:"post",  emoji:"📅", root:"post",  meaning:"after" },
+  { id:"pre",   emoji:"⏮️", root:"pre",   meaning:"before" },
+  { id:"port",  emoji:"🎒", root:"port",  meaning:"to carry" },
+  { id:"proto", emoji:"🥇", root:"proto", meaning:"first" },
+  { id:"re",    emoji:"🔄", root:"re",    meaning:"again, back" },
+  { id:"rect",  emoji:"📐", root:"rect",  meaning:"straight" },
+  { id:"rhea",  emoji:"🌊", root:"rhea",  meaning:"flowing" },
+];
+const TOTAL = CARDS.length;
+const mastered = {};
+
+function toggleCard(btn){
+  const details = btn.nextElementSibling;
+  const open = details.classList.toggle('visible');
+  btn.textContent = open ? 'Tap to hide ▲' : 'Tap to reveal ▼';
+  btn.classList.toggle('open', open);
+}
+
+function markCard(btn, state){
+  const card = btn.closest('.card');
+  const id = card.dataset.id;
+  card.classList.remove('mastered','still-learning');
+  const wasActive = btn.classList.contains('active');
+  card.querySelectorAll('.conf-btn').forEach(b => b.classList.remove('active'));
+  if(!wasActive){
+    btn.classList.add('active');
+    card.classList.add(state);
+    mastered[id] = (state === 'mastered');
+  } else {
+    delete mastered[id];
+  }
+  updateMasterBar();
+}
+
+function updateMasterBar(){
+  const count = Object.values(mastered).filter(Boolean).length;
+  const pct = Math.round((count / TOTAL) * 100);
+  document.getElementById('masterFill').style.width = pct + '%';
+  document.getElementById('masterCount').textContent = `${count} / ${TOTAL}`;
+}
+
+function revealAll(){
+  document.querySelectorAll('.reveal-btn').forEach(btn => {
+    btn.nextElementSibling.classList.add('visible');
+    btn.textContent = 'Tap to hide ▲';
+    btn.classList.add('open');
+  });
+}
+function hideAll(){
+  document.querySelectorAll('.reveal-btn').forEach(btn => {
+    btn.nextElementSibling.classList.remove('visible');
+    btn.textContent = 'Tap to reveal ▼';
+    btn.classList.remove('open');
+  });
+}
+function shuffleCards(){
+  const grid = document.getElementById('cardGrid');
+  const cards = Array.from(grid.children);
+  for(let i=cards.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [cards[i],cards[j]]=[cards[j],cards[i]];
+  }
+  cards.forEach(c => grid.appendChild(c));
+}
+
+let quizQ=[], quizIdx=0, quizScore=0;
+
+function startQuiz(){
+  document.getElementById('studySection').style.display='none';
+  document.getElementById('quizSection').style.display='block';
+  window.scrollTo(0,0);
+  quizQ=shuffle(CARDS.slice());
+  quizIdx=0; quizScore=0;
+  renderQuizQ();
+}
+
+function renderQuizQ(){
+  const q=quizQ[quizIdx];
+  document.getElementById('quizLabel').textContent=`Question ${quizIdx+1} of ${quizQ.length}`;
+  document.getElementById('quizBar').style.width=Math.round((quizIdx/quizQ.length)*100)+'%';
+  const wrongs=shuffle(CARDS.filter(c=>c.id!==q.id)).slice(0,3).map(c=>c.meaning);
+  const choices=shuffle([q.meaning,...wrongs]);
+  document.getElementById('quizBody').innerHTML=`
+    <div class="quiz-prompt">${q.emoji} ${q.root}</div>
+    <div class="quiz-sub">What does this root mean?</div>
+    <div class="quiz-choices">
+      ${choices.map(c=>`<button class="choice-btn" type="button" onclick="answerQuiz(this,'${escQ(c)}','${escQ(q.meaning)}')">${c}</button>`).join('')}
+    </div>
+  `;
+}
+
+function answerQuiz(btn,chosen,correct){
+  document.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
+  const ok=(chosen===correct);
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.choice-btn').forEach(b=>{
+    if(b.textContent.trim()===correct) b.classList.add('correct');
+  });
+  if(ok) quizScore++;
+  setTimeout(()=>{ quizIdx++; quizIdx<quizQ.length?renderQuizQ():showQuizResult(); },900);
+}
+
+function showQuizResult(){
+  const pct=Math.round((quizScore/quizQ.length)*100);
+  const msg=pct===100?"Perfect score! 🎉":pct>=75?"Great job! Keep it up 💪":pct>=50?"Good try! Review and retry 📖":"Keep studying — you've got this! 🌟";
+  document.getElementById('quizBar').style.width='100%';
+  document.getElementById('quizBody').innerHTML=`
+    <div class="quiz-result">
+      <div class="quiz-score">${pct}%</div>
+      <div class="quiz-msg">${quizScore} of ${quizQ.length} correct<br>${msg}</div>
+      <div class="quiz-actions">
+        <button class="action-btn" type="button" onclick="startQuiz()">Try Again 🔁</button>
+        <button class="action-btn secondary" type="button" onclick="backToStudy()">Study Cards 📚</button>
+      </div>
+    </div>
+  `;
+}
+
+function backToStudy(){
+  document.getElementById('quizSection').style.display='none';
+  document.getElementById('studySection').style.display='block';
+  window.scrollTo(0,0);
+}
+
+function shuffle(a){
+  const x=a.slice();
+  for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}
+  return x;
+}
+function escQ(s){return(s||'').replace(/'/g,"\\'");}
+</script>
+</body>
+</html>
